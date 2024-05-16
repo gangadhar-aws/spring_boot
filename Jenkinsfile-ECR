@@ -4,9 +4,9 @@ pipeline{
 
     parameters{
         choice(name: 'action', choices: 'create\ndelete', description: 'choose create/destory')
-        string(name: 'ImageName', description: 'name of the docuer build', defaultValue: 'javapp')
-        string(name: 'ImageTag', description: 'name of the docker build', defaultValue: 'v1')
-        string(name: 'DockerHubuesr', description: 'name of the Application', defaultValue: 'gangadharbsk')
+        string(name: 'aws_account_id', description: 'name of the AWS Account ID', defaultValue: '581907405949')
+        string(name: 'aws_region', description: 'name of The Region', defaultValue: 'ap-south-1')
+        string(name: 'aws_reponame', description: 'name of the ECR', defaultValue: 'gangadharbsk')
     }
 
     stages{
@@ -67,6 +67,57 @@ pipeline{
 
             }
         }
+
+        // image build for ECR
+        stage('Docker Image build: ECR'){
+             when { expression { params.action == 'create' } }
+            steps{
+                script{
+                     Ecr_docker_build("${params.aws_account_id}", "${params.aws_region}","${params.aws_reponame}")
+                }
+
+            }
+        }
+
+         // image scan for ECR
+        stage('Docker Image Scan: ECR'){
+             when { expression { params.action == 'create' } }
+            steps{
+                script{
+                    ECR_docker_imagescan("${params.aws_account_id}", "${params.aws_region}","${params.aws_reponame}")
+                }
+
+            }
+        }
+
+        // image scan push for ECR
+        stage('Docker Image PUSH : ECR'){
+             when { expression { params.action == 'create' } }
+            steps{
+                script{
+                    ECR_docker_imagepush("${params.aws_account_id}", "${params.aws_region}","${params.aws_reponame}")
+                }
+
+            }
+        }
+
+        // Image cleanup
+
+        stage('Docker Image cleanup'){
+             when { expression { params.action == 'create' } }
+            steps{
+                script{
+                    ECR_docker_cleanpu("${params.aws_account_id}", "${params.aws_region}","${params.aws_reponame}")
+                }
+
+            }
+        } 
+
+
+
+
+
+
 
     }
 }
