@@ -34,8 +34,10 @@ pipeline{
         stage('Qode Analaysis Chekcing'){
              when { expression { params.action == 'create' } }
             steps{
-                def SonarQubecredentialsId = 'sonarqube-api'
-                staticCodeanalysis(SonarQubecredentialsId)
+                script{
+                    def SonarQubecredentialsId = 'sonarqube-api'
+                    staticCodeanalysis(SonarQubecredentialsId)
+                }
 
             }
         }
