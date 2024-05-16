@@ -4,10 +4,12 @@ pipeline{
 
     stages{
         stage('Git Checkout'){
-            gitCheckout(
-                branch: "main",
-                url: "https://github.com/gangadhar-aws/spring_boot.git"
-            )
+            steps{
+                gitCheckout(
+                    branch: "main",
+                    url: "https://github.com/gangadhar-aws/spring_boot.git"
+                )
+            }
         }
     }
 }
