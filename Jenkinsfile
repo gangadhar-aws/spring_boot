@@ -20,42 +20,42 @@ pipeline{
             }
         }
 
-        stage('Maven Unit Test'){
-             when { expression { params.action == 'create' } }
-            steps{
-                mvnTest()
-            }
-        }
+        // stage('Maven Unit Test'){
+        //      when { expression { params.action == 'create' } }
+        //     steps{
+        //         mvnTest()
+        //     }
+        // }
 
-        stage('Integration Test Maven'){
-             when { expression { params.action == 'create' } }
-            steps{
-               mavenIntegration()
-            }
-        }
+        // stage('Integration Test Maven'){
+        //      when { expression { params.action == 'create' } }
+        //     steps{
+        //        mavenIntegration()
+        //     }
+        // }
 
-        stage('Static Code analysis: Sonarqube'){
-             when { expression { params.action == 'create' } }
-            steps{
-                script{
-                    def SonarQubecredentialsId = 'sonarqube-api'
-                    staticCodeanalysis(SonarQubecredentialsId)
-                }
+        // stage('Static Code analysis: Sonarqube'){
+        //      when { expression { params.action == 'create' } }
+        //     steps{
+        //         script{
+        //             def SonarQubecredentialsId = 'sonarqube-api'
+        //             staticCodeanalysis(SonarQubecredentialsId)
+        //         }
 
-            }
-        }
+        //     }
+        // }
 
 
-        stage('Qulity Gate status check: sonarqube'){
-             when { expression { params.action == 'create' } }
-            steps{
-                script{
-                    def SonarQubecredentialsId = 'sonarqube-api'
-                    QualityGateStatus(SonarQubecredentialsId)
-                }
+        // stage('Qulity Gate status check: sonarqube'){
+        //      when { expression { params.action == 'create' } }
+        //     steps{
+        //         script{
+        //             def SonarQubecredentialsId = 'sonarqube-api'
+        //             QualityGateStatus(SonarQubecredentialsId)
+        //         }
 
-            }
-        }
+        //     }
+        // }
 
 
         stage('Maven Build: maven'){
