@@ -79,6 +79,17 @@ pipeline{
             }
         }
 
+         //docker image scan using trivy
+         stage('Docker Image scan'){
+             when { expression { params.action == 'create' } }
+            steps{
+                script{
+                    dockerimagescan("${params.ImageName}","${params.ImageTag}","${params.DockerHubuesr}")
+                }
+
+            }
+        }
+
 
 
 
