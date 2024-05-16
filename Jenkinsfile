@@ -6,7 +6,7 @@ pipeline{
         choice(name: 'action', choices: 'create\ndelete', description: 'choose create/destory')
         string(name: 'ImageName', description: 'name of the docuer build', defaultValue: 'javapp')
         string(name: 'ImageTag', description: 'name of the docker build', defaultValue: 'v1')
-        string(name: 'Appname', description: 'name of the Application', defaultValue: 'springboot')
+        string(name: 'DockerHubuesr', description: 'name of the Application', defaultValue: 'gangadharbsk')
     }
 
     stages{
@@ -73,7 +73,7 @@ pipeline{
              when { expression { params.action == 'create' } }
             steps{
                 script{
-                    dockerBuild("${params.ImageName}","${params.ImageTag}","${params.Appname}")
+                    dockerBuild("${params.ImageName}","${params.ImageTag}","${params.DockerHubuesr}")
                 }
 
             }
