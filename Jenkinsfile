@@ -31,7 +31,7 @@ pipeline{
             }
         }
 
-        stage('Qode Analaysis Chekcing'){
+        stage('Static Code analysis: Sonarqube'){
              when { expression { params.action == 'create' } }
             steps{
                 script{
@@ -43,7 +43,21 @@ pipeline{
         }
 
 
+        stage('Qulity Gate status check: sonarqube'){
+             when { expression { params.action == 'create' } }
+            steps{
+                script{
+                    def SonarQubecredentialsId = 'sonarqube-api'
+                    QualityGateStatus(SonarQubecredentialsId)
+                }
 
+            }
+        }
+
+
+
+
+            
 
 
     }
