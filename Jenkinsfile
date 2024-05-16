@@ -20,7 +20,8 @@ pipeline{
         stage('Maven Unit Test'){
              when { expression { params.action == 'create' } }
             steps{
-               mvnTest()
+               //mvnTest()
+               sh 'mnv clean test'
             }
         }
 
