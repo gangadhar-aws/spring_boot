@@ -68,54 +68,5 @@ pipeline{
             }
         }
 
-        //dockerizing the Image
-         stage('Docker Image Build'){
-             when { expression { params.action == 'create' } }
-            steps{
-                script{
-                    dockerBuild("${params.ImageName}","${params.ImageTag}","${params.DockerHubuesr}")
-                }
-
-            }
-        }
-
-         //docker image scan using trivy
-         stage('Docker Image scan: trivy'){
-             when { expression { params.action == 'create' } }
-            steps{
-                script{
-                    dockerimagescan("${params.ImageName}","${params.ImageTag}","${params.DockerHubuesr}")
-                }
-
-            }
-        }
-
-        // pushing image to docker hub
-        stage('Docker Image push: Dockerhub'){
-             when { expression { params.action == 'create' } }
-            steps{
-                script{
-                    dokcerimagepush("${params.ImageName}","${params.ImageTag}","${params.DockerHubuesr}")
-                }
-
-            }
-        }
-
-        // Image Clean up
-          stage('Docker Image Cleanup : Dockerhub'){
-             when { expression { params.action == 'create' } }
-            steps{
-                script{
-                    dockerimagecleanup("${params.ImageName}","${params.ImageTag}","${params.DockerHubuesr}")
-                }
-
-            }
-        }
-
-
-
-            
-
-
     }
 }
